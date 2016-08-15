@@ -1,7 +1,7 @@
 package com.tr.zps.app.coolweather.model;
 
 /**
- * Created by Administrator on 2016/8/15.
+ * Created by zps on 2016/8/15.
  */
 public class County {
 
@@ -9,7 +9,6 @@ public class County {
 
     private String countyName;
 
-    private String countyCode;
 
     private int cityId;
 
@@ -27,14 +26,6 @@ public class County {
 
     public void setCountyName(String countyName) {
         this.countyName = countyName;
-    }
-
-    public String getCountyCode() {
-        return countyCode;
-    }
-
-    public void setCountyCode(String countyCode) {
-        this.countyCode = countyCode;
     }
 
     public int getCityId() {

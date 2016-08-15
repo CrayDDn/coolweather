@@ -1,7 +1,7 @@
 package com.tr.zps.app.coolweather.model;
 
 /**
- * Created by Administrator on 2016/8/15.
+ * Created by zps on 2016/8/15.
  */
 public class Province {
 
@@ -9,7 +9,6 @@ public class Province {
 
     private String provinceName;
 
-    private String provinceCode;
 
     public int getId() {
         return id;
@@ -17,14 +16,6 @@ public class Province {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getProvinceCode() {
-        return provinceCode;
-    }
-
-    public void setProvinceCode(String provinceCode) {
-        this.provinceCode = provinceCode;
     }
 
     public String getProvinceName() {
