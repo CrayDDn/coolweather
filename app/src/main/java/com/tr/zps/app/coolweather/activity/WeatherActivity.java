@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.tr.zps.app.coolweather.R;
+import com.tr.zps.app.coolweather.service.AutoUpdateService;
 import com.tr.zps.app.coolweather.util.HttpCallBackListener;
 import com.tr.zps.app.coolweather.util.HttpUtil;
 import com.tr.zps.app.coolweather.util.Utility;
@@ -121,6 +122,8 @@ public class WeatherActivity extends Activity implements View.OnClickListener {
         weatherDespText.setText(pref.getString("weather",""));
         temperature.setText(pref.getString("temperature",""));
         currentDateText.setText(pref.getString("date",""));
+        Intent i = new Intent(this, AutoUpdateService.class);
+        startService(i);
     }
     @Override
     public void onClick(View view) {
