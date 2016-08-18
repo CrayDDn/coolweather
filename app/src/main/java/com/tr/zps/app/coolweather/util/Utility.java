@@ -1,5 +1,8 @@
 package com.tr.zps.app.coolweather.util;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.JsonReader;
 
 import com.tr.zps.app.coolweather.db.CoolWeatherDB;
@@ -7,6 +10,10 @@ import com.tr.zps.app.coolweather.model.City;
 import com.tr.zps.app.coolweather.model.County;
 import com.tr.zps.app.coolweather.model.Province;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -125,6 +132,73 @@ public class Utility {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    /**
+     * 处理天气数据
+     * @param context
+     * @param in
+     * @return
+     */
+    public static boolean handleWeatherResponse(Context context,InputStream in){
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        String line;
+        StringBuilder response = new StringBuilder();
+        try {
+            while ((line = reader.readLine())!=null){
+                response.append(line);
+            }
+            return parseWeatherInfo(context,response.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 解析天气数据
+     * @param context
+     * @param data
+     * @return
+     */
+    private static boolean parseWeatherInfo(Context context,String data){
+        try {
+            JSONObject response = new JSONObject(data);
+            String resultcode = response.getString("resultcode");
+            if(resultcode.equals("200")){
+                JSONObject result = response.getJSONObject("result");
+                JSONObject today = result.getJSONObject("today");
+                String temperature = today.getString("temperature");
+                String cityName = today.getString("city");
+                String weather = today.getString("weather");
+                String date = today.getString("date_y");
+                return saveWeatherInfo(context,temperature,cityName,weather,date);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 保存天气信息
+     * @param context
+     * @param temperature
+     * @param cityName
+     * @param weather
+     * @param date
+     * @return
+     */
+    private static boolean saveWeatherInfo(Context context,String temperature,String cityName,String weather,String date){
+
+        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        edit.putBoolean("city_selected",true);
+        edit.putString("city_name",cityName);
+        edit.putString("temperature",temperature);
+        edit.putString("weather",weather);
+        edit.putString("date",date);
+        edit.commit();
         return false;
     }
 
